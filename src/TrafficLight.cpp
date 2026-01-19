@@ -91,8 +91,9 @@ int getRandomTrafficLightDuration(){
 
     std::uniform_int_distribution<> dist(MIN, MAX);
 
-    std::random_device rd;
-    std::mt19937 gen(rd());
+    // make these once
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
     
     int random_cycle_duration = dist(gen);
 
@@ -123,7 +124,7 @@ void TrafficLight::cycleThroughPhases()
             this->nextPhase();
             _messageQueue.send(std::move(_currentPhase));
             lastUpdate = now;
-            random_cycle_duration = getRandomTrafficLightDuration();
+            //random_cycle_duration = getRandomTrafficLightDuration();
         }
     }
 }
