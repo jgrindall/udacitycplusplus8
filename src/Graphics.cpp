@@ -24,6 +24,9 @@ void Graphics::loadBackgroundImg()
     _windowName = "Concurrency Traffic Simulation";
     cv::namedWindow(_windowName, cv::WINDOW_NORMAL);
 
+    cv::resizeWindow(_windowName, 800, 600);
+    
+
     // load image and create copy to be used for semi-transparent overlay
     cv::Mat background = cv::imread(_bgFilename);
     _images.push_back(background);         // first element is the original background
@@ -68,6 +71,6 @@ void Graphics::drawTrafficObjects()
 
     // display background and overlay image
     cv::imshow(_windowName, _images.at(2));
-    cv::resizeWindow(_windowName, 600,600);
+    cv::resizeWindow(_windowName, 800, 600);
     cv::waitKey(33);
 }
