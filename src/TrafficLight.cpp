@@ -35,6 +35,8 @@ void MessageQueue<T>::send(T &&msg)
 
     // add vector to queue
     //std::cout << "    #" << v.getID() << " will be added to the queue" << std::endl;
+
+    _queue.clear();
     _queue.push_back(std::move(msg));
     _cond.notify_one(); // notify client after pushing new Vehicle into vector
 }
