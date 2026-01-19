@@ -47,6 +47,7 @@ void WaitingVehicles::permitEntryToFirstInQueue()
 Intersection::Intersection()
 {
     _type = ObjectType::objectIntersection;
+    _trafficLight = std::make_shared<TrafficLight>();
     _isBlocked = false;
 }
 
