@@ -7,6 +7,7 @@
 #include "Street.h"
 #include "Intersection.h"
 #include "Vehicle.h"
+#include "TrafficLight.h"
 
 /* Implementation of class "WaitingVehicles" */
 
@@ -88,6 +89,18 @@ void Intersection::addVehicleToQueue(std::shared_ptr<Vehicle> vehicle)
     
     // FP.6b : use the methods TrafficLight::getCurrentPhase and TrafficLight::waitForGreen to block the execution until the traffic light turns green.
 
+    auto phase = _trafficLight->getCurrentPhase();
+
+    if(phase == TrafficLightPhase::green) {
+        lck.unlock();
+        return;
+    }
+    else {
+        lck.unlock();
+        _trafficLight->waitForGreen();
+        lck.lock();
+    }
+
     lck.unlock();
 }
 
@@ -112,6 +125,7 @@ void Intersection::simulate() // using threads + promises/futures + exceptions
 
     // launch vehicle queue processing in a thread
     threads.emplace_back(std::thread(&Intersection::processVehicleQueue, this));
+    _trafficLight->simulate();
 }
 
 void Intersection::processVehicleQueue()
@@ -139,15 +153,13 @@ void Intersection::processVehicleQueue()
 
 /* Rubric Tip: Uncomment the code below to meet the specifications mentioned in the project*/
 
-bool Intersection::trafficLightIsGreen()
-{
+bool Intersection::trafficLightIsGreen(){
    // please include this part once you have solved the final project tasks
-   /*
-   if (_trafficLight.getCurrentPhase() == TrafficLightPhase::green)
+   auto phase = _trafficLight->getCurrentPhase();
+   if (phase == TrafficLightPhase::green){
        return true;
-   else
+   }
+   else{
        return false;
-   */
-
-  return true; // makes traffic light permanently green
+   }
 } 
